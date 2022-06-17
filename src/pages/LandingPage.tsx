@@ -1,5 +1,5 @@
-import Header from './Header';
-import LandingBanner from './LandingBanner';
+import Header from '../components/Header';
+import LandingBanner from '../components/LandingBanner';
 
 const LandingPage = () => {
   return (

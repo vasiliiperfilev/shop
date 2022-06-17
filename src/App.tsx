@@ -1,11 +1,10 @@
-function App(): JSX.Element {
+import './styles/tailwind.css';
+import './styles/globals.scss';
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        Hello World
-      </header>
-    </div>
+    <a href="#" className="text-3xl font-bold underline">
+      Hello world!
+    </a>
   );
 }
-
-export default App;
