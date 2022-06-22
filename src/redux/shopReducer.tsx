@@ -1,15 +1,15 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 import fakeStoreService from '../services/fakeStoreService';
-import { ShopCardProps } from '../components/ShopCard';
 import { setError } from './errorReducer';
 import history from '../utils/history';
 import { AxiosError } from 'axios';
+import { ItemProps } from '../pages/ItemPage';
 
 const shopSlice = createSlice({
   name: 'shop',
-  initialState: [] as ShopCardProps[],
+  initialState: [] as ItemProps[],
   reducers: {
-    setProducts(state, action: PayloadAction<ShopCardProps[]>) {
+    setProducts(state, action: PayloadAction<ItemProps[]>) {
       return [...action.payload];
     },
   },

@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { ShopCardProps } from '../components/ShopCard';
+import { ItemProps } from '../pages/ItemPage';
 
 const baseUrl = 'https://fakestoreapi.com/products';
 
 const getProducts = async (category: string | undefined) => {
   const url = category ? `${baseUrl}/${category}` : baseUrl;
-  const response = await axios.get<ShopCardProps[]>(url);
+  const response = await axios.get<ItemProps[]>(url);
   return response.data;
 };
 

@@ -13,9 +13,9 @@ const ShopCardsGalery = () => {
 
   return (
     <>
-      {products?.map((product) => (
-        <Link to={product.id} key={product.id}>
-          <ShopCard {...product} />
+      {products?.map(({ id, image, title, price }) => (
+        <Link to={id.toString()} key={id.toString()}>
+          <ShopCard image={image} title={title} price={price} />
         </Link>
       ))}
     </>

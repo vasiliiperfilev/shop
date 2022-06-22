@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
+import { config } from '../config';
 
 const Header = () => {
   return (
     <header>
-      <h2>YOUR SHOP&apos;S NAME</h2>
+      <h2>{config.shopName}</h2>
       <h3>Shop</h3>
       <Link to="/shop">
         <img alt="search" />
