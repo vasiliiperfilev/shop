@@ -25,8 +25,8 @@ root.render(
           <Route path="shop" element={<ShopPage />}>
             <Route index element={<ShopCardsGalery />} />
             <Route path=":categoryName" element={<ShopCardsGalery />} />
-            <Route path=":categoryName/:itemId" element={<ItemPage />} />
           </Route>
+          <Route path="products/:itemId" element={<ItemPage />} />
           <Route
             path="/error"
             element={<ErrorPage />}

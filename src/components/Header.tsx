@@ -1,7 +1,15 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { config } from '../config';
 
-const Header = () => {
+interface HeaderProps {
+  onBagClick: () => void;
+}
+
+const Header = ({
+  onBagClick,
+  ...rest
+}: HeaderProps & React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <header>
       <h2>{config.shopName}</h2>
@@ -9,12 +17,8 @@ const Header = () => {
       <Link to="/shop">
         <img alt="search" />
       </Link>
-      <button>
-        <img alt="shopping bag">
-          {
-            // TODO: add function to change Bag visibility state
-          }
-        </img>
+      <button onClick={onBagClick}>
+        <img alt="shopping bag"></img>
       </button>
     </header>
   );
