@@ -4,10 +4,12 @@ import BagItem from './BagItem';
 
 interface BagProps {
   isBagVisible: boolean;
+  onCloseClick: () => void;
 }
 
 const Bag = ({
   isBagVisible = false,
+  onCloseClick,
 }: BagProps & React.HTMLAttributes<HTMLDivElement>) => {
   const itemsList = useAppSelector((state) => state.bag);
   const renderShopList = () => {
@@ -40,10 +42,9 @@ const Bag = ({
 
   return (
     <div className={isBagVisible ? 'flex flex-col' : 'hidden'}>
-      <button type="button">X</button>
-      {
-        // Add close btn function
-      }
+      <button type="button" onClick={onCloseClick}>
+        X
+      </button>
       {renderShopList()}
       {renderButton()}
     </div>

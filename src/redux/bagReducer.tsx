@@ -19,19 +19,19 @@ const bagSlice = createSlice({
       }
       state[bagIndex].quantity += 1;
     },
-    changeQuantity(
+    setQuantity(
       state,
-      action: PayloadAction<{ id: string; delta: number }>
+      action: PayloadAction<{ id: string; newQuantity: number }>
     ) {
-      const { id, delta } = action.payload;
+      const { id, newQuantity } = action.payload;
       const bagIndex = state.findIndex((item) => item.id === id);
 
       if (bagIndex === -1) {
         return [...state];
       }
 
-      if (state[bagIndex].quantity + delta > 0) {
-        state[bagIndex].quantity += delta;
+      if (newQuantity > 0) {
+        state[bagIndex].quantity = newQuantity;
       } else {
         state.splice(bagIndex, 1);
       }
@@ -39,6 +39,6 @@ const bagSlice = createSlice({
   },
 });
 
-export const { addItem, changeQuantity } = bagSlice.actions;
+export const { addItem, setQuantity } = bagSlice.actions;
 
 export default bagSlice.reducer;
