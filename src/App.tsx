@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { initializeProducts } from './redux/shopReducer';
 import { useAppDispatch } from './redux/hooks';
 import Bag from './components/Bag';
+import { initilizeCategories } from './redux/categoriesReduces';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -13,14 +14,19 @@ export default function App() {
 
   useEffect(() => {
     dispatch(initializeProducts());
-  });
+  }, []);
 
-  const toggleBag = () => setBagVisibility(!isBagVisible);
+  useEffect(() => {
+    dispatch(initilizeCategories());
+  }, []);
 
   return (
     <>
-      <Header onBagClick={toggleBag} />
-      <Bag isBagVisible={isBagVisible} />
+      <Header onBagClick={() => setBagVisibility(!isBagVisible)} />
+      <Bag
+        isBagVisible={isBagVisible}
+        onCloseClick={() => setBagVisibility(false)}
+      />
       <Outlet />
     </>
   );

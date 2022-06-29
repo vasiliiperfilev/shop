@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import bagReducer from './bagReducer';
+import categoriesReduces from './categoriesReduces';
 import errorReducer from './errorReducer';
 import shopReducer from './shopReducer';
 
@@ -8,6 +9,7 @@ export const store = configureStore({
     shop: shopReducer,
     error: errorReducer,
     bag: bagReducer,
+    categories: categoriesReduces,
   },
 });
 
