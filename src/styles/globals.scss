@@ -3,7 +3,7 @@
 body {
   min-height: 100vh;
   background-color: $background;
-  color: $secondary;
+  color: $primary-dark;
 }
 
 html,
@@ -16,7 +16,7 @@ body {
 }
 
 a {
-  color: $primary;
+  color: $primary-dark;
   text-decoration: none;
   transition: 100ms;
 

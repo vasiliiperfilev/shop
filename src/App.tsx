@@ -21,13 +21,15 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <Header onBagClick={() => setBagVisibility(!isBagVisible)} />
       <Bag
         isBagVisible={isBagVisible}
         onCloseClick={() => setBagVisibility(false)}
       />
-      <Outlet />
-    </>
+      <main className="mt-40">
+        <Outlet />
+      </main>
+    </div>
   );
 }
