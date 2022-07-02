@@ -1,9 +1,8 @@
-@import "./variables.scss";
+@import './variables.scss';
 
 body {
   min-height: 100vh;
-  background-color: $background;
-  color: $primary-dark;
+  color: $primary;
 }
 
 html,
@@ -16,13 +15,9 @@ body {
 }
 
 a {
-  color: $primary-dark;
+  color: $primary;
   text-decoration: none;
   transition: 100ms;
-
-  &:hover {
-    color: $primary-dark;
-  }
 }
 
 * {

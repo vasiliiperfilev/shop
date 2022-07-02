@@ -21,13 +21,19 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen overflow-auto relative bg-[url('../../public/bg.jpg')]">
       <Header onBagClick={() => setBagVisibility(!isBagVisible)} />
+      <div
+        id="wrapper"
+        className={`${
+          isBagVisible ? 'translate-x-full' : 'translate-x-0'
+        } fixed h-full w-2/3 top-0 -left-2/3 bg-black/60 ease-out duration-500 z-10`}
+      ></div>
       <Bag
         isBagVisible={isBagVisible}
         onCloseClick={() => setBagVisibility(false)}
       />
-      <main className="mt-40">
+      <main className="h-full px-16 mt-44 overflow-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
         <Outlet />
       </main>
     </div>

@@ -6,10 +6,10 @@ const ShopPage = () => {
   const categories = useAppSelector((state) => state.categories);
 
   return (
-    <>
+    <div className="flex relative">
       <ShopCategories categories={categories} />
       <Outlet />
-    </>
+    </div>
   );
 };
 

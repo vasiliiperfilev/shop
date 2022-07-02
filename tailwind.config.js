@@ -4,22 +4,31 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: '#edf6f9',
-        primary: {
+        primary: '#edf6f9',
+        secondary: {
           light: '#008b97',
-          DEFAULT: '#006d77',
+          DEFAULT: '#83c5be',
           dark: '#005f68',
         },
-        secondary: '#83c5be',
         btn: {
-          primary: '#ffddd2',
-          secondary: '#e29578',
-        },
-        image: {
-          background: '#ffffff',
+          primary: '#935FA7',
+          secondary: '#9B489B',
         },
       },
     },
+    backgroundSize: {
+      auto: 'auto',
+      cover: 'cover',
+      contain: 'contain',
+      '200%': '100% 200%',
+    },
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/line-clamp')],
+  variants: {
+    scrollbar: ['rounded'],
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/line-clamp'),
+    require('tailwind-scrollbar'),
+  ],
 };
