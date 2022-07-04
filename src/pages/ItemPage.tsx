@@ -1,6 +1,7 @@
 import { Navigate, useParams } from 'react-router-dom';
 import Button from '../components/Button';
 import { addItem } from '../redux/bagReducer';
+import { setError } from '../redux/errorReducer';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import history from '../utils/history';
 
@@ -32,6 +33,7 @@ const ItemPage = () => {
         })
       );
     } else {
+      dispatch(setError('No item found'));
       history.push('/error');
     }
   };
@@ -40,11 +42,11 @@ const ItemPage = () => {
     if (item !== undefined) {
       const { image, title, price, description } = item;
       return (
-        <div className="flex flex-col h-full md:flex-row gap-8 md:justify-center">
-          <div className="md:w-1/2 h-full flex justify-center">
+        <div className="flex flex-col h-full lg:flex-row gap-8 lg:justify-center">
+          <div className="lg:w-1/2 h-auto flex justify-center">
             <img src={image} alt={title} className="max-h-full" />
           </div>
-          <div className="flex flex-col gap-4 md:w-1/2">
+          <div className="flex flex-col gap-4 lg:w-1/2">
             <h3 className="text-4xl pb-4 border-b-4 border-btn-secondary">
               {title}
             </h3>
