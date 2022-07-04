@@ -9,7 +9,7 @@ const ShopCategories = ({
 }: ShopCategoriesProps & React.HTMLAttributes<HTMLDivElement>) => {
   const { categoryName } = useParams();
   return (
-    <div className="fixed h-fit">
+    <div className="md:fixed h-fit">
       <h4>Shop /</h4>
       <h2 className="mb-10 text-3xl">
         {categoryName ? categoryName : 'All products'}

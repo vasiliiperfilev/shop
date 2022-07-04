@@ -21,7 +21,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen overflow-auto relative bg-[url('../../public/bg.jpg')]">
+    <div className="flex flex-col h-screen overflow-auto relative bg-[url('../../public/bg.jpg')] bg-left-bottom pb-10">
       <Header onBagClick={() => setBagVisibility(!isBagVisible)} />
       <div
         id="wrapper"

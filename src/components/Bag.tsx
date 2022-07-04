@@ -1,7 +1,9 @@
-import { Link } from 'react-router-dom';
-import { useAppSelector } from '../redux/hooks';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import BagItem from './BagItem';
 import { IoMdClose } from 'react-icons/io';
+import Button from './Button';
+import { setError } from '../redux/errorReducer';
 
 interface BagProps {
   isBagVisible: boolean;
@@ -13,6 +15,9 @@ const Bag = ({
   onCloseClick,
 }: BagProps & React.HTMLAttributes<HTMLDivElement>) => {
   const itemsList = useAppSelector((state) => state.bag);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const renderShopList = () => {
     if (itemsList.length === 0) {
       return <p>Your bag is empty</p>;
@@ -26,25 +31,22 @@ const Bag = ({
     );
   };
 
+  const onButtonClick = () => {
+    const link = itemsList.length === 0 ? '/shop' : '/error';
+    const error = itemsList.length === 0 ? undefined : 'Nothing here YET!';
+    if (error) dispatch(setError(error));
+    navigate(link, { replace: true });
+    onCloseClick();
+  };
+
   const renderButton = () => {
-    const classes =
-      'mt-auto flex justify-center border border-secondary py-4 relative group text-secondary-dark';
-    let link;
-    let text;
-    if (itemsList.length === 0) {
-      link = '/shop';
-      text = 'BROWSE PRODUCTS';
-    } else {
-      link = '/';
-      text = 'CHECKOUT';
-    }
+    const text = itemsList.length === 0 ? 'BROWSE PRODUCTS' : 'CHECKOUT';
     return (
-      <Link to={link} className={classes}>
-        <span className="absolute w-full h-0 group-hover:h-full transition-all ease-out duration-500 bg-btn-primary bottom-0 left-0"></span>
-        <button type="button" className="group-hover:text-primary relative">
-          {text}
-        </button>
-      </Link>
+      <Button
+        text={text}
+        className="text-secondary-dark mt-auto mx-auto border-secondary-dark"
+        onClick={() => onButtonClick()}
+      />
     );
   };
 
@@ -52,7 +54,7 @@ const Bag = ({
     <div
       className={`${
         isBagVisible ? 'flex flex-col translate-x-0' : 'translate-x-full'
-      } fixed top-0 right-0 ease-out duration-500 w-1/3 bottom-0 p-16 flex flex-col gap-y-3 bg-[url('../../public/bag.png')] bg-no-repeat bg-center bg-blend-overlay bg-primary text-secondary-dark z-10`}
+      } fixed top-0 right-0 ease-out duration-500 md:w-1/3 w-full bottom-0 p-16 flex flex-col gap-y-3 bg-[url('../../public/bag.png')] bg-no-repeat bg-center bg-blend-overlay bg-primary text-secondary-dark z-10`}
     >
       <button
         type="button"

@@ -1,4 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom';
+import Button from '../components/Button';
 import { addItem } from '../redux/bagReducer';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import history from '../utils/history';
@@ -39,23 +40,21 @@ const ItemPage = () => {
     if (item !== undefined) {
       const { image, title, price, description } = item;
       return (
-        <div className="flex gap-8 h-full pb-10 justify-center">
-          <div className="w-1/2 h-full overflow-hidden flex justify-center">
+        <div className="flex flex-col h-full md:flex-row gap-8 md:justify-center">
+          <div className="md:w-1/2 h-full flex justify-center">
             <img src={image} alt={title} className="max-h-full" />
           </div>
-          <div className="flex flex-col gap-4 w-1/2">
+          <div className="flex flex-col gap-4 md:w-1/2">
             <h3 className="text-4xl pb-4 border-b-4 border-btn-secondary">
               {title}
             </h3>
             <h4 className="text-xl">{`$${price}`}</h4>
             <p className="text-lg">{description}</p>
-            <button
+            <Button
+              text="Add"
+              className="mt-auto mx-auto"
               onClick={onAddClick}
-              className="mt-auto border border-btn-primary w-fit px-8 py-2 relative group mx-auto"
-            >
-              <span className="absolute w-full h-0 group-hover:h-full transition-all ease-out duration-500 bg-btn-primary bottom-0 left-0"></span>
-              <span className="group-hover:text-primary relative">Add</span>
-            </button>
+            />
           </div>
         </div>
       );

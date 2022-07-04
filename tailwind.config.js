@@ -22,6 +22,9 @@ module.exports = {
       contain: 'contain',
       '200%': '100% 200%',
     },
+    gridTemplateColumns: {
+      fluid: 'repeat(auto-fit, minmax(250px, 1fr))',
+    },
   },
   variants: {
     scrollbar: ['rounded'],
