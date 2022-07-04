@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { config } from '../config';
 import { BiSearchAlt, BiShoppingBag } from 'react-icons/bi';
 import { useAppSelector } from '../redux/hooks';
-import bagReducer from '../redux/bagReducer';
 
 interface HeaderProps {
   onBagClick: () => void;
