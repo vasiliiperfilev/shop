@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { config } from '../config';
 import { BiSearchAlt, BiShoppingBag } from 'react-icons/bi';
+import { useAppSelector } from '../redux/hooks';
+import bagReducer from '../redux/bagReducer';
 
 interface HeaderProps {
   onBagClick: () => void;
@@ -11,6 +13,7 @@ const Header = ({
   onBagClick,
   ...rest
 }: HeaderProps & React.HTMLAttributes<HTMLDivElement>) => {
+  const numItems = useAppSelector((state) => state.bag.length);
   return (
     <header className="fixed top-0 w-full flex p-16 h-44 items-center ">
       <h2 className="font-light tracking-widest">{config.shopName}</h2>
@@ -25,8 +28,13 @@ const Header = ({
           //   <BiSearchAlt size={24} />
           // </Link>
         }
-        <button onClick={onBagClick} className="flex items-center">
+        <button onClick={onBagClick} className="flex items-center relative">
           <BiShoppingBag size={24} />
+          {numItems > 0 && (
+            <span className="absolute -bottom-2 -right-2 bg-btn-primary text-xs text-primary rounded-full h-4 w-4 flex justify-center items-center">
+              {numItems}
+            </span>
+          )}
         </button>
       </div>
     </header>
