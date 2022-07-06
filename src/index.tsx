@@ -26,9 +26,9 @@ root.render(
       <PersistGate loading={null} persistor={persistor}>
         <HistoryRouter history={history}>
           <Routes>
-            <Route path="/" element={<App />}>
+            <Route path="/shop" element={<App />}>
               <Route index element={<LandingBanner />} />
-              <Route path="shop" element={<ShopPage />}>
+              <Route path="store" element={<ShopPage />}>
                 <Route index element={<ShopCardsGalery />} />
                 <Route path=":categoryName" element={<ShopCardsGalery />} />
               </Route>

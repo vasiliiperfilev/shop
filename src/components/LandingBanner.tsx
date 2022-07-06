@@ -8,7 +8,7 @@ const LandingBanner = () => {
         Now available for preorder, shipping September, 2022.
       </h2>
       <Link
-        to="/shop"
+        to="store"
         className="bg-btn-primary text-background w-fit px-10 py-2 relative group"
       >
         <span className="absolute h-full w-full left-0 top-0 group-hover:left-1 group-hover:top-1 transition-all ease-out duration-300 border-2 border-btn-primary"></span>

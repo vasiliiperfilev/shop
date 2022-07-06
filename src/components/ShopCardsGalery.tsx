@@ -15,7 +15,7 @@ const ShopCardsGalery = () => {
     <div className="grid grid-cols-fluid gap-10 md:mx-auto w-2/3">
       {products?.map(({ id, image, title, price }) => (
         <Link
-          to={`/products/${id.toString()}`}
+          to={`/shop/products/${id.toString()}`}
           key={id.toString()}
           className="flex justify-center"
         >

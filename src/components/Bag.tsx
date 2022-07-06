@@ -32,7 +32,7 @@ const Bag = ({
   };
 
   const onButtonClick = () => {
-    const link = itemsList.length === 0 ? '/shop' : '/error';
+    const link = itemsList.length === 0 ? '/shop/store' : '/shop/error';
     const error = itemsList.length === 0 ? undefined : 'Nothing here YET!';
     if (error) dispatch(setError(error));
     navigate(link, { replace: true });
