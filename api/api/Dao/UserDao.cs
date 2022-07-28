@@ -5,6 +5,16 @@ using api.Models.User;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
+public interface IUserDao
+{
+    Task<User?> GetById(string id);
+    Task<User?> GetByEmail(string email);
+    User? GetByEmailSync(string email);
+    Task Create(User user);
+    Task<User> Update(string id, User user);
+    void Remove(string id);
+}
+
 public class UserDao : IUserDao
 {
     private readonly IMongoCollection<User> _users;

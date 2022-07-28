@@ -3,7 +3,6 @@ using api.Helpers;
 using api.Models;
 using api.Services;
 using api.Services.Authorization;
-using api.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
@@ -48,7 +47,7 @@ builder.Services.AddAuthentication(x =>
 		};
 	});
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddScoped<IJwtUtils, JwtUtils>();
+builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 builder.Services.AddScoped<IUserDao, UserDao>();
 builder.Services.AddScoped<IUserService, UserService>();
 

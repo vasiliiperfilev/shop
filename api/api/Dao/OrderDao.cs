@@ -6,6 +6,14 @@ using api.Models.Order;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
+public interface IOrderDao
+{
+    Task<Order?> GetById(string id);
+    Task Create(Order order);
+    Task<Order> Update(string id, Order order);
+    void Remove(string id);
+}
+
 public class OrderDao : IOrderDao
 {
     private readonly IMongoCollection<Order> _orders;

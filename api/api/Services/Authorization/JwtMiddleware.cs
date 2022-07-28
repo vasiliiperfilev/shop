@@ -1,5 +1,5 @@
 ﻿using api.Dao;
-using api.Utils;
+using api.Helpers;
 
 namespace api.Services.Authorization;
 
@@ -12,7 +12,7 @@ public class JwtMiddleware
         _next = next;
     }
 
-    public async Task Invoke(HttpContext context, IUserDao userDao, IJwtUtils jwtUtils)
+    public async Task Invoke(HttpContext context, IUserDao userDao, IJwtHelper jwtUtils)
     {
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
         var userId = jwtUtils.ValidateToken(token);

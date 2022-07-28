@@ -4,19 +4,27 @@ using api.Dao;
 using api.Helpers;
 using api.Models.Order;
 using api.Models.User;
-using api.Utils;
 using AutoMapper;
 using BCr = BCrypt.Net;
 
-public class UserService : IUserService
+public interface IUserService
 {
-    private readonly IJwtUtils _jwtUtils;
+    Task<AuthenticateResponse> Authenticate(AuthenticateRequest model);
+    Task<User> Register(RegisterRequest user);
+    Task<User> Update(string id, UserUpdateRequest model);
+    void Delete(string id);
+    Task<Order> AddUserOrder(User user, AddOrderRequest model);
+}
+
+    public class UserService : IUserService
+{
+    private readonly IJwtHelper _jwtUtils;
     private readonly IMapper _mapper;
     private readonly IUserDao _userDao;
     private readonly IOrderDao _orderDao;
 
     public UserService(
-        IJwtUtils jwtUtils,
+        IJwtHelper jwtUtils,
         IMapper mapper,
         IUserDao userDao,
         IOrderDao orderDao)

@@ -1,4 +1,4 @@
-﻿namespace api.Utils;
+﻿namespace api.Helpers;
 
 using api.Models.User;
 using Microsoft.Extensions.Options;
@@ -7,17 +7,17 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-public interface IJwtUtils
+public interface IJwtHelper
 {
     public string GenerateToken(User user);
     public string? ValidateToken(string token);
 }
 
-public class JwtUtils : IJwtUtils
+public class JwtHelper : IJwtHelper
 {
     private readonly IConfiguration _config;
 
-    public JwtUtils(IConfiguration config)
+    public JwtHelper(IConfiguration config)
     {
         _config = config;
     }
