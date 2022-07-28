@@ -79,7 +79,7 @@ public class UsersController : ControllerBase
     {
         return await PerformIfAuthorized(async (user) =>
         {
-            return Ok(user.Orders);
+            return Ok(await _userService.GetUserOrders(user));
         });
     }
 

@@ -14,6 +14,7 @@ public interface IUserService
     Task<User> Update(string id, UserUpdateRequest model);
     void Delete(string id);
     Task<Order> AddUserOrder(User user, AddOrderRequest model);
+    Task<Order[]> GetUserOrders(User user);
 }
 
     public class UserService : IUserService
@@ -80,10 +81,20 @@ public interface IUserService
     public async Task<Order> AddUserOrder(User user, AddOrderRequest model)
     {
         model.UserId = user.Id;
-        var order = _mapper.Map<Order>(model);
-        user.Orders.Add(order);
+        var order = _mapper.Map<Order>(model);;
         await _orderDao.Create(order);
+        user.Orders.Add(order.Id);
         await _userDao.Update(user.Id, user);
         return order;
+    }
+
+    public async Task<Order[]> GetUserOrders(User user)
+    {
+        Order[] orders = new Order[user.Orders.Count];
+        for (int i = 0; i < orders.Length; i++)
+        {
+            orders[i] = await _orderDao.GetById(user.Orders[i]);
+        }
+        return orders;
     }
 }
