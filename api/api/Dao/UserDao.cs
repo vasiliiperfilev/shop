@@ -18,6 +18,9 @@ public class UserDao : IUserDao
     async Task<User?> IUserDao.GetByEmail(string email) =>
         await _users.Find(x => x.Email.Equals(email)).FirstOrDefaultAsync();
 
+    User? IUserDao.GetByEmailSync(string email) =>
+        _users.Find(x => x.Email.Equals(email)).FirstOrDefault();
+
     async Task IUserDao.Create(User user) =>
         await _users.InsertOneAsync(user);
 

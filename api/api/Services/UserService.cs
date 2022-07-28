@@ -41,9 +41,6 @@ public class UserService : IUserService
 
     public async Task<User> Register(RegisterRequest model)
     {
-        if (await _userDao.GetByEmail(model.Email) is not null)
-            throw new AppException("Some fields have errors", "Email", new string[] { "Already taken" });
-
         var user = _mapper.Map<User>(model);
         user.Password = BCr.BCrypt.HashPassword(model.Password);
 
@@ -56,11 +53,7 @@ public class UserService : IUserService
         var user = await _userDao.GetById(id);
 
         if (user is null)
-            throw new AppException("Email doesn't exist", "Email", new string[] { "Doesn't exist" });
-
-        var duplicateEmail = await _userDao.GetByEmail(model.Email) is not null;
-        if (duplicateEmail)
-            throw new AppException("Some fields have errors", "Email", new string[] { "Already taken" });
+            throw new AppException("Not authorized");
 
         var isPasswordUpdate = !string.IsNullOrEmpty(model.Password);
         if (isPasswordUpdate)

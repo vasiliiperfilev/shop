@@ -10,6 +10,8 @@ public class OrderItem
 {
     [Required]
     [JsonPropertyName("id")]
+    [MaxLength(100,
+        ErrorMessage = "Name max length is 100")]
     public string Id { get; set; } = null!;
 
     [Required]
@@ -21,11 +23,11 @@ public class OrderItem
     [Required]
     [Range(0, 10000000)]
     [JsonPropertyName("quantity")]
-    public double Quantity { get; set; }
+    public double? Quantity { get; set; }
 
     [Required]
     [Range(0, 10000000)]
     [JsonPropertyName("totalPrice")]
-    public double TotalPrice { get; set; }
+    public double? TotalPrice { get; set; }
 
 }

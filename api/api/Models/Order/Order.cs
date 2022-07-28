@@ -22,6 +22,5 @@ public class Order
 
     [BsonElement("items")]
     [Required]
-    [ItemsValidation]
     public List<OrderItem> Items { get; set; } = new List<OrderItem>();
 }

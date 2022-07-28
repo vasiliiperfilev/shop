@@ -1,5 +1,6 @@
 ﻿namespace api.Models.User;
 
+using api.Helpers;
 using System.ComponentModel.DataAnnotations;
 
 public class RegisterRequest
@@ -8,6 +9,7 @@ public class RegisterRequest
     [MaxLength(25,
         ErrorMessage = "Email max length is 25")]
     [EmailAddress]
+    [UniqueEmailValidation]
     public string Email { get; set; } = null!;
 
     [Required]

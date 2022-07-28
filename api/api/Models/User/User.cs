@@ -4,7 +4,9 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Text.Json.Serialization;
 using System.Collections;
+using Order = api.Models.Order.Order;
 using System.ComponentModel.DataAnnotations;
+using api.Helpers;
 
 public class User
 {
@@ -36,6 +38,6 @@ public class User
 
     [BsonElement("orders")]
     [JsonIgnore]
-    public ArrayList Orders { get; set; } = new ArrayList(); 
+    public List<Order> Orders { get; set; } = new List<Order>(); 
 
 }
