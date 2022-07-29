@@ -10,11 +10,12 @@ using BCr = BCrypt.Net;
 public interface IUserService
 {
     Task<AuthenticateResponse> Authenticate(AuthenticateRequest model);
-    Task<User> Register(RegisterRequest user);
+    Task<User> Register(RegisterRequest model);
     Task<User> Update(string id, UserUpdateRequest model);
     void Delete(string id);
     Task<Order> AddUserOrder(User user, AddOrderRequest model);
     Task<Order[]> GetUserOrders(User user);
+    Task<Order?> GetUserOrderById(User user, string orderId);
 }
 
     public class UserService : IUserService
@@ -81,7 +82,7 @@ public interface IUserService
     public async Task<Order> AddUserOrder(User user, AddOrderRequest model)
     {
         model.UserId = user.Id;
-        var order = _mapper.Map<Order>(model);;
+        var order = _mapper.Map<Order>(model);
         await _orderDao.Create(order);
         user.Orders.Add(order.Id);
         await _userDao.Update(user.Id, user);
@@ -93,8 +94,21 @@ public interface IUserService
         Order[] orders = new Order[user.Orders.Count];
         for (int i = 0; i < orders.Length; i++)
         {
-            orders[i] = await _orderDao.GetById(user.Orders[i]);
+            var order = await _orderDao.GetById(user.Orders[i]);
+            if (order is not null)
+            {
+                orders[i] = order;
+            }
         }
         return orders;
+    }
+
+    public Task<Order?> GetUserOrderById(User user, string orderId)
+    {
+        if (user.Orders.Contains(orderId))
+        {
+            return _orderDao.GetById(orderId);
+        }
+        return Task.FromResult<Order?>(null);
     }
 }

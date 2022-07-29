@@ -7,6 +7,8 @@ using api.Models.User;
 using AllowAnonymous = System.Web.Http.AllowAnonymousAttribute;
 using System.Web;
 using api.Models.Order;
+using Microsoft.OpenApi.Expressions;
+using api.Helpers;
 
 [Authorize]
 [ApiController]
@@ -56,49 +58,34 @@ public class UsersController : ControllerBase
     [HttpPut("self")]
     public async Task<IActionResult> Update([FromBody] UserUpdateRequest model)
     {
-        return await PerformIfAuthorized(async (user) =>
-        {
-            var updatedUser = await _userService.Update(user.Id, model);
-            return Ok(updatedUser);
-        });
+        var user = HttpContext.Items["User"] as User ?? throw new AppException("Auth error");
+        var updatedUser = await _userService.Update(user.Id, model);
+        return Ok(updatedUser);
     }
 
     [HttpPost("self/orders")]
     public async Task<IActionResult> PostOrder([FromBody] AddOrderRequest model)
     {
-
-        return await PerformIfAuthorized(async (user) =>
-        {
-            var order = await _userService.AddUserOrder(user, model);
-            return Ok(order);
-        });
+        var user = HttpContext.Items["User"] as User ?? throw new AppException("Auth error");
+        var order = await _userService.AddUserOrder(user, model);
+        return Ok(order);
     }
 
     [HttpGet("self/orders")]
     public async Task<IActionResult> GetOrders()
     {
-        return await PerformIfAuthorized(async (user) =>
-        {
-            return Ok(await _userService.GetUserOrders(user));
-        });
+        var user = HttpContext.Items["User"] as User ?? throw new AppException("Auth error");
+        return Ok(await _userService.GetUserOrders(user));
     }
 
-    [HttpGet("self/orders/{id}")]
-    public async Task<IActionResult> GetOrder(string id)
+    [HttpGet("self/orders/{orderId}")]
+    public async Task<IActionResult> GetOrder(string orderId)
     {
-        return await PerformIfAuthorized(async (user) => Ok(user.Orders));
-    }
-
-
-    // Helper
-    private async Task<IActionResult> PerformIfAuthorized(Func<User, Task<IActionResult>> func)
-    {
-        var user = HttpContext.Items["User"] as User;
-        if (user is not null)
-        {
-            return await func(user);
+        var user = HttpContext.Items["User"] as User ?? throw new AppException("Auth error");
+        var order = await _userService.GetUserOrderById(user, orderId);
+        if (order is not null) {
+            return Ok(order);
         }
-        return BadRequest();
+        return NotFound();
     }
-
 }

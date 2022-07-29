@@ -7,13 +7,15 @@ using System.Collections;
 using Order = api.Models.Order.Order;
 using System.ComponentModel.DataAnnotations;
 using api.Helpers;
+using MongoDB.Bson.Serialization.IdGenerators;
+using System.Diagnostics.CodeAnalysis;
 
 public class User
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     [JsonIgnore]
-    public string? Id { get; set; }
+    public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
 
     [BsonElement("email")]
     [Required]
