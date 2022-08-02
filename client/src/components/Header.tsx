@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { config } from '../config';
-import { BiSearchAlt, BiShoppingBag } from 'react-icons/bi';
+import { BiShoppingBag } from 'react-icons/bi';
 import { useAppSelector } from '../redux/hooks';
 
 interface HeaderProps {
@@ -21,12 +21,6 @@ const Header = ({
           <span>Shop</span>
           <span className="absolute bottom-0 left-0 h-1 bg-btn-primary/50 w-0 group-hover:w-full ease-out duration-500"></span>
         </Link>
-        {
-          // TODO: add search feature with search page
-          // <Link to="/shop" className="text-primary-dark flex items-center">
-          //   <BiSearchAlt size={24} />
-          // </Link>
-        }
         <button onClick={onBagClick} className="flex items-center relative">
           <BiShoppingBag size={24} />
           {numItems > 0 && (

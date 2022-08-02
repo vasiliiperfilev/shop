@@ -1,45 +1,22 @@
 import { Navigate, useParams } from 'react-router-dom';
-import Button from '../components/Button';
+import { Button } from '../components/elements/Button';
 import { addItem } from '../redux/bagReducer';
-import { setError } from '../redux/errorReducer';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import history from '../utils/history';
-
-export interface ItemProps {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  image: string;
-}
 
 const ItemPage = () => {
   const { itemId } = useParams();
   const dispatch = useAppDispatch();
-  const item = useAppSelector(({ shop }) =>
-    shop.find((i) => i.id.toString() === itemId)
-  );
+  const items = useAppSelector(({ shop }) => shop);
+  const item = items.find((i) => i.id === itemId);
 
   const onAddClick = () => {
-    if (itemId !== undefined && item !== undefined) {
-      const { image, title, price } = item;
-      dispatch(
-        addItem({
-          id: itemId,
-          image,
-          title,
-          price,
-        })
-      );
-    } else {
-      dispatch(setError('No item found'));
-      history.push('/error');
+    if (itemId && item) {
+      dispatch(addItem(item));
     }
   };
 
   const renderPage = () => {
-    if (item !== undefined) {
+    if (item) {
       const { image, title, price, description } = item;
       return (
         <div className="flex flex-col h-full lg:flex-row gap-8 lg:justify-center">
@@ -53,15 +30,17 @@ const ItemPage = () => {
             <h4 className="text-xl">{`$${price}`}</h4>
             <p className="text-lg">{description}</p>
             <Button
-              text="Add"
               className="mt-auto mx-auto"
               onClick={onAddClick}
-            />
+              variant="animated"
+            >
+              Add
+            </Button>
           </div>
         </div>
       );
     } else {
-      return <Navigate to={'/error'} />;
+      return <Navigate to={'/shop/error'} />;
     }
   };
 

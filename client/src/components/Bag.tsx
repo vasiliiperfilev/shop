@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import BagItem from './BagItem';
 import { IoMdClose } from 'react-icons/io';
-import Button from './Button';
+import { Button } from './elements/Button';
 import { setError } from '../redux/errorReducer';
 
 interface BagProps {
@@ -43,10 +43,12 @@ const Bag = ({
     const text = itemsList.length === 0 ? 'BROWSE PRODUCTS' : 'CHECKOUT';
     return (
       <Button
-        text={text}
         className="text-secondary-dark mt-auto mx-auto border-secondary-dark"
         onClick={() => onButtonClick()}
-      />
+        variant="animated"
+      >
+        {text}
+      </Button>
     );
   };
 

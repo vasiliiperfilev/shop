@@ -1,5 +1,5 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
-import fakeStoreService from '../services/fakeStoreService';
+import fakeStoreService from '../services/fakeStoreService/fakeStoreService';
 import { setError } from './errorReducer';
 import history from '../utils/history';
 import { AxiosError } from 'axios';
@@ -25,7 +25,7 @@ export const initilizeCategories = () => async (dispatch: Dispatch) => {
     } else {
       dispatch(setError(err.message));
     }
-    history.push('/error');
+    history.push('/shop/error');
   }
   dispatch(setCategories(fetchedCategories));
 };

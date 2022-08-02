@@ -1,16 +1,26 @@
 import './styles/tailwind.css';
 import './styles/globals.scss';
-import Header from './components/Header';
-import { Outlet } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { initializeProducts } from './redux/shopReducer';
 import { useAppDispatch } from './redux/hooks';
-import Bag from './components/Bag';
 import { initilizeCategories } from './redux/categoriesReduces';
+import {
+  unstable_HistoryRouter as HistoryRouter,
+  Route,
+  Routes,
+} from 'react-router-dom';
+import LandingBanner from './components/LandingBanner';
+import ShopCardsGalery from './components/ShopCardsGalery';
+import ItemPage from './pages/ItemPage';
+import ShopPage from './pages/ShopPage';
+import ErrorPage from './pages/ErrorPage';
+import history from './utils/history';
+import { Layout } from './components/Layout';
+import { Spinner } from './components/elements/Spinner';
+import React from 'react';
 
 export default function App() {
   const dispatch = useAppDispatch();
-  const [isBagVisible, setBagVisibility] = useState(false);
 
   useEffect(() => {
     dispatch(initializeProducts());
@@ -21,21 +31,26 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen overflow-auto relative bg-[url('../../public/bg.jpg')] bg-left-bottom pb-10">
-      <Header onBagClick={() => setBagVisibility(!isBagVisible)} />
-      <div
-        id="wrapper"
-        className={`${
-          isBagVisible ? 'translate-x-full' : 'translate-x-0'
-        } fixed h-full w-2/3 top-0 -left-2/3 bg-black/60 ease-out duration-500 z-10`}
-      ></div>
-      <Bag
-        isBagVisible={isBagVisible}
-        onCloseClick={() => setBagVisibility(false)}
-      />
-      <main className="h-full px-16 mt-44 overflow-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
-        <Outlet />
-      </main>
-    </div>
+    <React.Suspense
+      fallback={
+        <div className="flex items-center justify-center w-screen h-screen">
+          <Spinner size="xl" />
+        </div>
+      }
+    >
+      <HistoryRouter history={history}>
+        <Routes>
+          <Route path="/shop" element={<Layout />}>
+            <Route index element={<LandingBanner />} />
+            <Route path="store" element={<ShopPage />}>
+              <Route index element={<ShopCardsGalery />} />
+              <Route path=":categoryName" element={<ShopCardsGalery />} />
+            </Route>
+            <Route path="products/:itemId" element={<ItemPage />} />
+            <Route path="error" element={<ErrorPage />} />
+          </Route>
+        </Routes>
+      </HistoryRouter>
+    </React.Suspense>
   );
 }

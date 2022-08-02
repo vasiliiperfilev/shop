@@ -9,19 +9,22 @@ const BagItem = ({
   quantity,
   price,
   image,
+  link,
   ...rest
 }: BagItemProps & React.HTMLAttributes<HTMLDivElement>) => {
   const dispatch = useAppDispatch();
   return (
     <div className="relative">
       <div className="grid grid-cols-[48px_1fr_20%] grid-rows-[_repeat(2,_minmax(30px,_auto))] pt-4 items-top justify-center gap-x-4 gap">
-        <img
-          src={image}
-          alt={title}
-          width={48}
-          height="auto"
-          className="col-span-1 row-span-full"
-        />
+        <a href={link}>
+          <img
+            src={image}
+            alt={title}
+            width={48}
+            height="auto"
+            className="col-span-1 row-span-full"
+          />
+        </a>
         <h4 className="font-semibold col-span-1">{title}</h4>
         <button
           onClick={() => dispatch(setQuantity({ id, newQuantity: 0 }))}

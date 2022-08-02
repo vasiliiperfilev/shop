@@ -1,18 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Item } from '../services/fakeStoreService/types/item';
 
-export interface BagItemProps {
-  id: string;
+export interface BagItemProps extends Item {
   quantity: number;
-  price: number;
-  image: string;
-  title: string;
 }
 
 const bagSlice = createSlice({
   name: 'bag',
   initialState: [] as BagItemProps[],
   reducers: {
-    addItem(state, action: PayloadAction<Omit<BagItemProps, 'quantity'>>) {
+    addItem(state, action: PayloadAction<Item>) {
       const bagIndex = state.findIndex((item) => item.id === action.payload.id);
       if (bagIndex === -1) {
         return [...state, { ...action.payload, quantity: 1 }];
