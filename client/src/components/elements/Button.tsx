@@ -41,7 +41,7 @@ const sizes = {
 const variants = {
   primary: 'bg-btn-primary text-primary ',
   inverse: 'bg-secondary-dark text-primary ',
-  animated: 'border-btn-primary ',
+  animated: 'border border-btn-primary ',
 };
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -67,7 +67,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         type={type}
         className={
-          'w-fit relative group' + variants[variant] + sizes[size] + className
+          'w-fit relative group ' + variants[variant] + sizes[size] + className
         }
         {...props}
       >

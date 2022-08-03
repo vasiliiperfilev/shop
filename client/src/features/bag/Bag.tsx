@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import BagItem from './BagItem';
 import { IoMdClose } from 'react-icons/io';
-import { Button } from './elements/Button';
-import { setError } from '../redux/errorReducer';
+import { Button } from '../../components/elements/Button';
+import { setError } from '../../redux/errorReducer';
 
 interface BagProps {
   isBagVisible: boolean;

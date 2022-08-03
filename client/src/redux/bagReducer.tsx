@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Item } from '../services/fakeStoreService/types/item';
+import { Item } from '../services/store/types/item';
 
 export interface BagItemProps extends Item {
   quantity: number;

@@ -18,6 +18,7 @@ import history from './utils/history';
 import { Layout } from './components/Layout';
 import { Spinner } from './components/elements/Spinner';
 import React from 'react';
+import { RegisterForm } from './features/auth/RegisterForm';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -42,6 +43,10 @@ export default function App() {
         <Routes>
           <Route path="/shop" element={<Layout />}>
             <Route index element={<LandingBanner />} />
+            <Route path="auth">
+              {/* <Route path="login" element={<LoginForm />} /> */}
+              <Route path="register" element={<RegisterForm />} />
+            </Route>
             <Route path="store" element={<ShopPage />}>
               <Route index element={<ShopCardsGalery />} />
               <Route path=":categoryName" element={<ShopCardsGalery />} />

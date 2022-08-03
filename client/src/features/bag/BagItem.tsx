@@ -1,6 +1,6 @@
 import { IoMdClose } from 'react-icons/io';
-import { BagItemProps, setQuantity } from '../redux/bagReducer';
-import { useAppDispatch } from '../redux/hooks';
+import { BagItemProps, setQuantity } from '../../redux/bagReducer';
+import { useAppDispatch } from '../../redux/hooks';
 import { BiPlus, BiMinus } from 'react-icons/bi';
 
 const BagItem = ({

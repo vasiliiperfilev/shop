@@ -1,6 +1,6 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Bag from './Bag';
+import Bag from '../features/bag/Bag';
 import Header from './Header';
 
 export const Layout = () => {
