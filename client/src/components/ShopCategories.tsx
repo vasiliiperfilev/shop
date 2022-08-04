@@ -1,4 +1,5 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { Link } from './elements/Link';
 
 interface ShopCategoriesProps {
   categories: string[];
@@ -16,9 +17,10 @@ const ShopCategories = ({
       </h2>
       <ul>
         {categories.map((category) => (
-          <li key={category} className="relative group text-lg">
-            <Link to={category}>{category}</Link>
-            <span className="absolute bottom-1 left-0 h-2 bg-btn-primary/30 w-0 group-hover:w-full ease-out duration-500"></span>
+          <li key={category}>
+            <Link to={category} variant="side" size="lg" className="w-full">
+              {category}
+            </Link>
           </li>
         ))}
       </ul>

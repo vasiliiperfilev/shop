@@ -1,46 +1,46 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/elements/Button';
 import { Form, FormErrors } from '../../components/form/Form';
 import { Input } from '../../components/form/Input';
 import useAuth from '../../hooks/useAuth';
 import { RegisterRequest } from '../../services/auth/types/';
-import { APIError } from '../../services/axios';
+import { sanitize } from 'dompurify';
+import { Link } from '../../components/elements/Link';
+import { isEmpty } from 'lodash';
 
 const PASSWORD_COMPLEXITY_REGEX =
   /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).{6,}$/i;
 
 export const RegisterForm = () => {
   const navigate = useNavigate();
-  const [errors, setErrors] = useState<FormErrors<RegisterRequest>>({});
-  const { register, isRegistering } = useAuth();
+  const { registerUser, isRequesting, errors, message } = useAuth();
   const onSubmit = async (data: RegisterRequest) => {
-    await register(data);
-    try {
-      await register(data);
+    Object.keys(data).forEach(
+      (k) =>
+        (data[k as keyof RegisterRequest] = sanitize(
+          data[k as keyof RegisterRequest].trim()
+        ))
+    );
+    await registerUser(data);
+    if (isEmpty(errors)) {
       navigate('/shop');
-    } catch (err: any | APIError<FormErrors<RegisterRequest>>) {
-      if (!(err instanceof APIError) || !err?.errors) {
-        console.error(err);
-        return;
-      }
-
-      if (err.errors) {
-        setErrors(err.errors);
-      }
     }
   };
 
   return (
     <div>
+      <h1 className="font-semibold text-xl mx-auto text-center mb-4">
+        Register your account
+      </h1>
       <Form<RegisterRequest>
         onSubmit={onSubmit}
-        errors={errors}
+        errors={errors as FormErrors<RegisterRequest>}
         options={{
           shouldUnregister: true,
         }}
+        className="w-1/3 mx-auto bg-primary p-8 rounded-xl"
       >
-        {({ register, formState }) => (
+        {({ register, formState, getValues }) => (
           <>
             <Input
               type="email"
@@ -65,6 +65,23 @@ export const RegisterForm = () => {
               })}
             />
             <Input
+              type="password"
+              label="Confirm password"
+              error={formState.errors['confirmPassword']}
+              registration={register('confirmPassword', {
+                required: { value: true, message: 'Required' },
+                validate: (val: string) => {
+                  const { password } = getValues();
+
+                  if (password !== val) {
+                    return 'Password do not match';
+                  }
+
+                  return true;
+                },
+              })}
+            />
+            <Input
               type="text"
               label="Address"
               error={formState.errors['address']}
@@ -73,23 +90,21 @@ export const RegisterForm = () => {
               })}
             />
             <div>
-              <Button
-                isLoading={isRegistering}
-                type="submit"
-                className="w-full"
-              >
+              <Button isLoading={isRequesting} type="submit" className="w-full">
                 Register
               </Button>
             </div>
+            {message && (
+              <small className="mt-1 text-sm text-red-400 dark:text-red-600">
+                {message}
+              </small>
+            )}
           </>
         )}
       </Form>
       <div className="mt-2 flex items-center justify-end">
-        <div className="text-sm">
-          <Link
-            to="../login"
-            className="font-medium text-blue-600 hover:text-blue-500"
-          >
+        <div className="text-sm mx-auto">
+          <Link to="../login" size="lg">
             Log In
           </Link>
         </div>

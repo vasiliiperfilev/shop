@@ -50,11 +50,11 @@ export const Form = <
         });
       }
     }
-  });
+  }, [errors, methods]);
 
   return (
     <form
-      className={'space-y-6 ' + className}
+      className={'space-y-4 ' + className}
       onSubmit={methods.handleSubmit(onSubmit)}
       id={id}
     >

@@ -3,35 +3,6 @@
 import { Spinner } from './Spinner';
 import React from 'react';
 
-// interface ButtonProps {
-//   onClick: () => void;
-//   text: string;
-//   className?: string;
-// }
-
-// const defaultButtonStyles = [
-//   'border',
-//   'border-btn-primary',
-//   'w-fit',
-//   'px-8',
-//   'py-2',
-//   'relative',
-//   'group',
-// ];
-
-// const Button = ({ onClick, className, text }: ButtonProps) => {
-//   const getStyles = () => {
-//     return defaultButtonStyles.join(' ') + (className ? ' ' + className : '');
-//   };
-
-//   return (
-//     <button onClick={onClick} className={getStyles()}>
-//       <span className="absolute w-full h-0 group-hover:h-full transition-all ease-out duration-500 bg-btn-primary bottom-0 left-0"></span>
-//       <span className="group-hover:text-primary relative">{text}</span>
-//     </button>
-//   );
-// };
-
 const sizes = {
   sm: 'py-2 px-4 text-sm ',
   md: 'py-2 px-6 text-md ',
@@ -39,7 +10,7 @@ const sizes = {
 };
 
 const variants = {
-  primary: 'bg-btn-primary text-primary ',
+  primary: 'bg-btn-primary text-primary rounded-xl ',
   inverse: 'bg-secondary-dark text-primary ',
   animated: 'border border-btn-primary ',
 };
@@ -67,7 +38,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         type={type}
         className={
-          'w-fit relative group ' + variants[variant] + sizes[size] + className
+          'w-fit relative group flex ' +
+          variants[variant] +
+          sizes[size] +
+          className
         }
         {...props}
       >

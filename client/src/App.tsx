@@ -19,6 +19,7 @@ import { Layout } from './components/Layout';
 import { Spinner } from './components/elements/Spinner';
 import React from 'react';
 import { RegisterForm } from './features/auth/RegisterForm';
+import { LoginForm } from './features/auth/LoginForm';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -44,7 +45,7 @@ export default function App() {
           <Route path="/shop" element={<Layout />}>
             <Route index element={<LandingBanner />} />
             <Route path="auth">
-              {/* <Route path="login" element={<LoginForm />} /> */}
+              <Route path="login" element={<LoginForm />} />
               <Route path="register" element={<RegisterForm />} />
             </Route>
             <Route path="store" element={<ShopPage />}>

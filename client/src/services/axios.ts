@@ -2,22 +2,22 @@ import Axios, { AxiosRequestConfig } from 'axios';
 import { API_URL } from '../config';
 import storage from '../utils/storage';
 
-export class APIError<TError> extends Error {
-  name: string;
-  message: string;
-  errors?: TError;
+// export class APIError<TError> extends Error {
+//   name: string;
+//   message: string;
+//   errors?: TError;
 
-  constructor(name: string, message: string, errors?: TError) {
-    super(message);
+//   constructor(name: string, message: string, errors?: TError) {
+//     super(message);
 
-    this.name = name;
-    this.message = message;
+//     this.name = name;
+//     this.message = message;
 
-    if (errors) {
-      this.errors = errors;
-    }
-  }
-}
+//     if (errors) {
+//       this.errors = errors;
+//     }
+//   }
+// }
 
 function authRequestInterceptor(config: AxiosRequestConfig) {
   const token = storage.getToken();

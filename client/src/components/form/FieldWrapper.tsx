@@ -18,7 +18,9 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
   const { label, className, error, children } = props;
   return (
     <div>
-      <label className={'block text-sm font-medium text-primary ' + className}>
+      <label
+        className={'block text-sm font-medium text-secondary-dark ' + className}
+      >
         {label}
         <div className="mt-1">{children}</div>
       </label>
