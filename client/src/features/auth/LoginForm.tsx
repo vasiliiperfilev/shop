@@ -6,7 +6,6 @@ import useAuth from '../../hooks/useAuth';
 import { LoginRequest } from '../../services/auth/types/';
 import { sanitize } from 'dompurify';
 import { Link } from '../../components/elements/Link';
-import { isEmpty } from 'lodash';
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -18,8 +17,8 @@ export const LoginForm = () => {
           data[k as keyof LoginRequest].trim()
         ))
     );
-    await loginUser(data);
-    if (isEmpty(errors)) {
+    const user = await loginUser(data);
+    if (user) {
       navigate('/shop');
     }
   };

@@ -13,6 +13,7 @@ const variants = {
   primary: 'bg-btn-primary text-primary rounded-xl ',
   inverse: 'bg-secondary-dark text-primary ',
   animated: 'border border-btn-primary ',
+  transparent: 'bg-transparent ',
 };
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {

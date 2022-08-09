@@ -1,46 +1,43 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import BagItem from './BagItem';
 import { IoMdClose } from 'react-icons/io';
 import { Button } from '../../components/elements/Button';
-import { setError } from '../../redux/errorReducer';
+import { ItemRecord } from '../../components/ItemRecord';
+import { setError } from '../../redux/reducers/errorReducer';
+import orderService from '../../services/orders/orderService';
+import { AxiosError } from 'axios';
+import { addOrder } from '../../redux/reducers/userReducer';
+import { cleanBag } from '../../redux/reducers/bagReducer';
 
 interface BagProps {
   isBagVisible: boolean;
-  onCloseClick: () => void;
+  onClose: () => void;
 }
 
 const Bag = ({
   isBagVisible = false,
-  onCloseClick,
+  onClose,
 }: BagProps & React.HTMLAttributes<HTMLDivElement>) => {
-  const itemsList = useAppSelector((state) => state.bag);
+  const orderItems = useAppSelector((state) => state.bag);
   const navigate = useNavigate();
+  const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const renderShopList = () => {
-    if (itemsList.length === 0) {
+    if (orderItems.length === 0) {
       return <p>Your bag is empty</p>;
     }
     return (
       <div className="overflow-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
-        {itemsList.map((item) => (
-          <BagItem {...item} key={item.id} />
+        {orderItems.map((item) => (
+          <ItemRecord {...item} editable key={item.id} imageSize="l" />
         ))}
       </div>
     );
   };
 
-  const onButtonClick = () => {
-    const link = itemsList.length === 0 ? '/shop/store' : '/shop/error';
-    const error = itemsList.length === 0 ? undefined : 'Nothing here YET!';
-    if (error) dispatch(setError(error));
-    navigate(link, { replace: true });
-    onCloseClick();
-  };
-
   const renderButton = () => {
-    const text = itemsList.length === 0 ? 'BROWSE PRODUCTS' : 'CHECKOUT';
+    const text = orderItems.length === 0 ? 'BROWSE PRODUCTS' : 'CHECKOUT';
     return (
       <Button
         className="text-secondary-dark mt-auto mx-auto border-secondary-dark"
@@ -52,6 +49,41 @@ const Bag = ({
     );
   };
 
+  const tryPostOrder = async () => {
+    try {
+      const order = await orderService.postOrder({
+        date: new Date().toISOString(),
+        items: orderItems,
+      });
+      dispatch(addOrder(order));
+      dispatch(cleanBag());
+      navigate('/shop/user/orders', { replace: true });
+    } catch (err: unknown | AxiosError) {
+      if (err instanceof AxiosError) {
+        dispatch(setError('Processing error'));
+        navigate('/shop/error');
+      } else {
+        console.error(err);
+      }
+    }
+  };
+
+  const onButtonClick = async () => {
+    if (orderItems.length === 0) {
+      navigate('/shop/store', { replace: true });
+      onClose();
+      return;
+    }
+
+    if (user) {
+      await tryPostOrder();
+    } else {
+      navigate('/shop/auth/login');
+    }
+
+    onClose();
+  };
+
   return (
     <div
       className={`${
@@ -60,7 +92,7 @@ const Bag = ({
     >
       <button
         type="button"
-        onClick={onCloseClick}
+        onClick={onClose}
         className="absolute top-20 right-20"
       >
         <IoMdClose size={24} />
@@ -71,10 +103,10 @@ const Bag = ({
         <h3>BAG</h3>
       </div>
       {renderShopList()}
-      {itemsList.length > 0 && (
+      {orderItems.length > 0 && (
         <p>
           Total: $
-          {itemsList
+          {orderItems
             .reduce((sum, { price, quantity }) => sum + price * quantity, 0)
             .toFixed(2)}
         </p>

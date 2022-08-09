@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { Button } from '../components/elements/Button';
-import { addItem } from '../redux/bagReducer';
+import { addItem } from '../redux/reducers/bagReducer';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 const ItemPage = () => {

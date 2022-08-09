@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import bagReducer from './bagReducer';
-import categoriesReduces from './categoriesReduces';
-import errorReducer from './errorReducer';
-import shopReducer from './shopReducer';
+import bagReducer from './reducers/bagReducer';
+import categoriesReduces from './reducers/categoriesReduces';
+import errorReducer from './reducers/errorReducer';
+import shopReducer from './reducers/shopReducer';
 import storage from 'redux-persist/lib/storage';
 import {
   persistStore,
@@ -14,6 +14,7 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import userReducer from './reducers/userReducer';
 
 const persistConfig = {
   key: 'root',
@@ -22,6 +23,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
+  user: userReducer,
   shop: shopReducer,
   error: errorReducer,
   bag: bagReducer,

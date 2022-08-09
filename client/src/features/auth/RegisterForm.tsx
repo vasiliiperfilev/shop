@@ -6,7 +6,6 @@ import useAuth from '../../hooks/useAuth';
 import { RegisterRequest } from '../../services/auth/types/';
 import { sanitize } from 'dompurify';
 import { Link } from '../../components/elements/Link';
-import { isEmpty } from 'lodash';
 
 const PASSWORD_COMPLEXITY_REGEX =
   /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).{6,}$/i;
@@ -21,8 +20,8 @@ export const RegisterForm = () => {
           data[k as keyof RegisterRequest].trim()
         ))
     );
-    await registerUser(data);
-    if (isEmpty(errors)) {
+    const user = await registerUser(data);
+    if (user) {
       navigate('/shop');
     }
   };

@@ -1,7 +1,7 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
-import fakeStoreService from '../services/store/fakeStoreService';
+import fakeStoreService from '../../services/store/fakeStoreService';
 import { setError } from './errorReducer';
-import history from '../utils/history';
+import history from '../../utils/history';
 import { AxiosError } from 'axios';
 
 const categoriesSlice = createSlice({

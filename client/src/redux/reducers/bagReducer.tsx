@@ -1,13 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Item } from '../services/store/types/item';
-
-export interface BagItemProps extends Item {
-  quantity: number;
-}
+import { OrderItem } from '../../services/orders/types';
+import { Item } from '../../services/store/types/item';
 
 const bagSlice = createSlice({
   name: 'bag',
-  initialState: [] as BagItemProps[],
+  initialState: [] as OrderItem[],
   reducers: {
     addItem(state, action: PayloadAction<Item>) {
       const bagIndex = state.findIndex((item) => item.id === action.payload.id);
@@ -33,9 +30,12 @@ const bagSlice = createSlice({
         state.splice(bagIndex, 1);
       }
     },
+    cleanBag() {
+      return [];
+    },
   },
 });
 
-export const { addItem, setQuantity } = bagSlice.actions;
+export const { addItem, setQuantity, cleanBag } = bagSlice.actions;
 
 export default bagSlice.reducer;
