@@ -7,7 +7,6 @@ using api.Models.User;
 using AllowAnonymous = System.Web.Http.AllowAnonymousAttribute;
 using System.Web;
 using api.Models.Order;
-using Microsoft.OpenApi.Expressions;
 using api.Helpers;
 
 [Authorize]
@@ -51,8 +50,8 @@ public class UsersController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        await _userService.Register(model);
-        return Ok(new { message = "Registration successful" });
+        var response = await _userService.Register(model);
+        return Ok(response);
     }
 
     [HttpPut("self")]
@@ -72,17 +71,17 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("self/orders")]
-    public async Task<IActionResult> GetOrders()
+    public IActionResult GetOrders()
     {
         var user = HttpContext.Items["User"] as User ?? throw new AppException("Auth error");
-        return Ok(await _userService.GetUserOrders(user));
+        return Ok(_userService.GetUserOrders(user));
     }
 
     [HttpGet("self/orders/{orderId}")]
-    public async Task<IActionResult> GetOrder(string orderId)
+    public IActionResult GetOrder(string orderId)
     {
         var user = HttpContext.Items["User"] as User ?? throw new AppException("Auth error");
-        var order = await _userService.GetUserOrderById(user, orderId);
+        var order = _userService.GetUserOrderById(user, orderId);
         if (order is not null) {
             return Ok(order);
         }

@@ -1,11 +1,10 @@
-﻿using api.Helpers;
+﻿namespace api.Models.Order;
+
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
-using api.Models.Item;
 using System.Text.Json.Serialization;
-
-namespace api.Models.Order;
+using api.Models.Item;
 
 public class Order
 {

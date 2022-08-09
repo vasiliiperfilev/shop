@@ -1,8 +1,5 @@
 ﻿namespace api.Models.Item;
 
-using api.Helpers;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -17,8 +14,8 @@ public class OrderItem
     [Required]
     [MaxLength(100,
         ErrorMessage = "Name max length is 100")]
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = null!;
+    [JsonPropertyName("title")]
+    public string Title { get; set; } = null!;
 
     [Required]
     [Range(0, 10000000)]
@@ -27,7 +24,13 @@ public class OrderItem
 
     [Required]
     [Range(0, 10000000)]
-    [JsonPropertyName("totalPrice")]
-    public double? TotalPrice { get; set; }
+    [JsonPropertyName("price")]
+    public double? Price { get; set; }
+
+    [Required]
+    [MaxLength(200,
+        ErrorMessage = "Name max length is 200")]
+    [JsonPropertyName("image")]
+    public string? Image { get; set; }
 
 }

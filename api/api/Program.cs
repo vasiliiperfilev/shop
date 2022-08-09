@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using System.Text;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 var MongoConnectionString = builder.Configuration["MongoString"];
@@ -23,9 +24,10 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddSingleton<OrderDao>();
 builder.Services.AddScoped<IOrderDao, OrderDao>();
 builder.Services.AddControllers(
-    options => {
-        options.SuppressAsyncSuffixInActionNames = false;
-    }
+	options =>
+	{
+		options.SuppressAsyncSuffixInActionNames = false;
+	}
 );
 builder.Services.AddAuthentication(x =>
 	{
@@ -50,6 +52,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 builder.Services.AddScoped<IUserDao, UserDao>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -60,6 +63,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(x => x
+	.AllowAnyMethod()
+	.AllowAnyHeader()
+	.SetIsOriginAllowed(origin => true) 
+	.AllowCredentials()); 
 app.UseRouting();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<JwtMiddleware>();

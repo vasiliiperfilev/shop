@@ -10,12 +10,12 @@ using BCr = BCrypt.Net;
 public interface IUserService
 {
     Task<AuthenticateResponse> Authenticate(AuthenticateRequest model);
-    Task<User> Register(RegisterRequest model);
+    Task<AuthenticateResponse> Register(RegisterRequest model);
     Task<User> Update(string id, UserUpdateRequest model);
     void Delete(string id);
     Task<Order> AddUserOrder(User user, AddOrderRequest model);
-    Task<Order[]> GetUserOrders(User user);
-    Task<Order?> GetUserOrderById(User user, string orderId);
+    List<Order> GetUserOrders(User user);
+    Order? GetUserOrderById(User user, string orderId);
 }
 
     public class UserService : IUserService
@@ -49,13 +49,15 @@ public interface IUserService
         return response;
     }
 
-    public async Task<User> Register(RegisterRequest model)
+    public async Task<AuthenticateResponse> Register(RegisterRequest model)
     {
         var user = _mapper.Map<User>(model);
         user.Password = BCr.BCrypt.HashPassword(model.Password);
 
         await _userDao.Create(user);
-        return user;
+        var response = _mapper.Map<User, AuthenticateResponse>(user);
+        response.Token = _jwtUtils.GenerateToken(user);
+        return response;
     }
 
     public async Task<User> Update(string id, UserUpdateRequest model)
@@ -83,32 +85,22 @@ public interface IUserService
     {
         model.UserId = user.Id;
         var order = _mapper.Map<Order>(model);
-        await _orderDao.Create(order);
-        user.Orders.Add(order.Id);
+        user.Orders.Add(order);
         await _userDao.Update(user.Id, user);
         return order;
     }
 
-    public async Task<Order[]> GetUserOrders(User user)
+    public List<Order> GetUserOrders(User user)
     {
-        Order[] orders = new Order[user.Orders.Count];
-        for (int i = 0; i < orders.Length; i++)
-        {
-            var order = await _orderDao.GetById(user.Orders[i]);
-            if (order is not null)
-            {
-                orders[i] = order;
-            }
-        }
-        return orders;
+        return user.Orders;
     }
 
-    public Task<Order?> GetUserOrderById(User user, string orderId)
+    public Order? GetUserOrderById(User user, string orderId)
     {
-        if (user.Orders.Contains(orderId))
+        if (user.Orders.Any((order) => order.Id == orderId))
         {
-            return _orderDao.GetById(orderId);
+            return user.Orders.FirstOrDefault((order) => order.Id == orderId);
         }
-        return Task.FromResult<Order?>(null);
+        return null;
     }
 }
