@@ -6,17 +6,21 @@ const bcrypt = require('bcryptjs');
 const { Schema } = mongoose;
 const { ObjectId } = mongoose.Types;
 
-const UserSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
-    maxLength: 100,
-    validate: [validator.isEmail, 'Invalid email'],
+const UserSchema = new Schema(
+  {
+    email: {
+      type: String,
+      trim: true.valueOf,
+      required: true,
+      maxLength: 100,
+      validate: [validator.isEmail, 'Invalid email'],
+    },
+    password: { type: String, trim: true, required: true, maxLength: 25 },
+    address: { type: Date, trim: true, required: true, maxLength: 100 },
+    orders: { type: [{ type: ObjectId, ref: 'Order' }], default: [] },
   },
-  password: { type: String, required: true, maxLength: 25 },
-  address: { type: Date, required: true, maxLength: 100 },
-  orders: [{ type: ObjectId, ref: 'Order' }],
-});
+  { timestamps: true }
+);
 
 UserSchema.pre('save', async (next, done) => {
   const self = this;
