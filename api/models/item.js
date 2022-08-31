@@ -10,6 +10,7 @@ const ItemSchema = new Schema(
     category: { type: String, required: true, maxLength: 200 },
     description: { type: String, required: true, maxLength: 200 },
     image: { type: String, required: true, maxLength: 200 },
+    rating: { rate: { type: Number, min: 0, max: 5 }, count: { type: Number, min: 1 } },
   },
   { timestamps: true }
 );

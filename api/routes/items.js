@@ -6,6 +6,6 @@ const itemController = require('../controllers/itemController');
 
 router.get('/', itemController.getAllItems);
 router.get('/:itemId', itemController.getItem);
-router.get('/:category', itemController.getAllCategoryItems);
+router.get('/category/:category', itemController.getAllCategoryItems);
 
 module.exports = router;

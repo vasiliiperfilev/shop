@@ -1,10 +1,11 @@
 /* eslint-disable consistent-return */
 const mongoose = require('mongoose');
-const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const { Schema } = mongoose;
 const { ObjectId } = mongoose.Types;
+
+const PUBLIC_PROPS = ['id', 'email', 'address', 'orders'];
 
 const UserSchema = new Schema(
   {
@@ -13,35 +14,40 @@ const UserSchema = new Schema(
       trim: true.valueOf,
       required: true,
       maxLength: 100,
-      validate: [validator.isEmail, 'Invalid email'],
     },
-    password: { type: String, trim: true, required: true, maxLength: 25 },
-    address: { type: Date, trim: true, required: true, maxLength: 100 },
+    password: { type: String, trim: true, required: true, maxLength: 100 },
+    address: { type: String, trim: true, required: true, maxLength: 100 },
     orders: { type: [{ type: ObjectId, ref: 'Order' }], default: [] },
   },
   { timestamps: true }
 );
 
-UserSchema.pre('save', async (next, done) => {
+UserSchema.pre('save', function (next) {
   const self = this;
-  // verify unique email
-  mongoose.models.User.findOne({ email: self.email }, (err, results) => {
-    if (err) {
-      done(err);
-    } else if (results) {
-      self.invalidate('email', 'Email must be unique');
-      done(new Error('Email must be unique'));
-    }
-  });
-
   // hash password if modified
   if (!self.isModified('password')) return next();
 
   bcrypt.hash(self.password, 10, (err, hash) => {
     if (err) return next(err);
     self.password = hash;
+    next();
   });
-  next();
 });
+
+UserSchema.methods.isValidPassword = async function (password) {
+  const user = this;
+  const compare = await bcrypt.compare(password, user.password);
+  return compare;
+};
+
+UserSchema.methods.getPublicProps = function () {
+  const user = this;
+  const publicUser = PUBLIC_PROPS.reduce((publicObj, key) => {
+    // eslint-disable-next-line no-param-reassign
+    publicObj[key] = user[key];
+    return publicObj;
+  }, {});
+  return publicUser;
+};
 
 module.exports = mongoose.model('User', UserSchema);
