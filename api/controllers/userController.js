@@ -31,7 +31,7 @@ exports.registerUser = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.json({ errors: errors.array() });
+      res.status(400).json({ errors: errors.array() });
     } else {
       const { email, password, address } = req.body;
       const user = new User({ email, password, address });
@@ -50,13 +50,11 @@ exports.authenticateUser = [
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.json({ errors: errors.array() });
+      res.status(400).json({ errors: errors.array() });
     } else {
       passport.authenticate('json', { session: false }, (err, user, message) => {
         if (err || !user) {
-          return res.status(400).json({
-            message,
-          });
+          return res.status(400).json(message);
         }
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
         return res.json({ user: user.getPublicProps(), token });

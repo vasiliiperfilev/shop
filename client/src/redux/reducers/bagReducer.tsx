@@ -7,9 +7,11 @@ const bagSlice = createSlice({
   initialState: [] as OrderItem[],
   reducers: {
     addItem(state, action: PayloadAction<Item>) {
-      const bagIndex = state.findIndex((item) => item.id === action.payload.id);
+      const bagIndex = state.findIndex(
+        ({ item }) => item.id === action.payload.id
+      );
       if (bagIndex === -1) {
-        return [...state, { ...action.payload, quantity: 1 }];
+        return [...state, { item: { ...action.payload }, quantity: 1 }];
       }
       state[bagIndex].quantity += 1;
     },
@@ -18,7 +20,7 @@ const bagSlice = createSlice({
       action: PayloadAction<{ id: string; newQuantity: number }>
     ) {
       const { id, newQuantity } = action.payload;
-      const bagIndex = state.findIndex((item) => item.id === id);
+      const bagIndex = state.findIndex(({ item }) => item.id === id);
 
       if (bagIndex === -1) {
         return [...state];

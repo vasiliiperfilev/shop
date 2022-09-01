@@ -1,9 +1,9 @@
 import storage from '../../utils/storage';
 import { axios } from '../axios';
-import { LoginRequest, RegisterRequest, User } from './types';
+import { AuthResponse, LoginRequest, RegisterRequest, User } from './types';
 
 const register = async (registerRequest: RegisterRequest) => {
-  const response = await axios.post<RegisterRequest, User>(
+  const response = await axios.post<RegisterRequest, AuthResponse>(
     'users/register',
     registerRequest
   );
@@ -12,7 +12,7 @@ const register = async (registerRequest: RegisterRequest) => {
 };
 
 const login = async (loginRequest: LoginRequest) => {
-  const response = await axios.post<LoginRequest, User>(
+  const response = await axios.post<LoginRequest, AuthResponse>(
     'users/authenticate',
     loginRequest
   );

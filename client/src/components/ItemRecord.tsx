@@ -15,17 +15,14 @@ type ItemRecordProps = OrderItem & {
 };
 
 export const ItemRecord = ({
-  id,
-  title,
-  image,
+  item,
   quantity,
-  price,
-  link,
   editable = false,
   imageSize = 'm',
   className = '',
 }: ItemRecordProps & React.HTMLAttributes<HTMLDivElement>) => {
   const dispatch = useAppDispatch();
+  const { id, link, image, title, price } = item;
   return (
     <div className={'relative ' + className}>
       <div className="flex justify-between pt-4 gap-x-4 w-full">

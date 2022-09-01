@@ -3,21 +3,10 @@
 const { body, param, validationResult } = require('express-validator');
 const passport = require('passport');
 const Order = require('../models/order');
-const User = require('../models/user');
 const Item = require('../models/item');
 
 exports.postOrder = [
   passport.authenticate('jwt', { session: false }),
-  body('userId')
-    .trim()
-    .escape()
-    .custom((value) =>
-      User.findById(value)
-        .then((user) => {
-          if (!user) return Promise.reject('User does not exist');
-        })
-        .catch(() => Promise.reject('User does not exist'))
-    ),
   body('items').isArray().notEmpty().withMessage('Order at least 1 item'),
   body('items.*.item')
     .trim()
@@ -36,12 +25,13 @@ exports.postOrder = [
       res.json({ errors: errors.array() });
     } else {
       const { user } = req;
-      const order = new Order({ ...req.body, date: new Date() });
+      const { items } = req.body;
+      const order = new Order({ items, userId: user.id, date: new Date() });
       order.save(async (err, result) => {
         if (err) return next(err);
         user.orders.push(result.id);
         user.save();
-        await result.populate('items');
+        await result.populate('items.item');
         res.json(result);
       });
     }
@@ -77,9 +67,7 @@ exports.getAllOrders = [
   async (req, res) => {
     const { user } = req;
     await user.populate('orders');
-    user.orders.forEach(async (order) => {
-      await order.populate('items');
-    });
+    await user.populate('orders.items.item');
     res.json(user.orders);
   },
 ];

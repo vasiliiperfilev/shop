@@ -45,3 +45,14 @@ exports.getAllCategoryItems = [
     }
   },
 ];
+
+exports.getAllCategories = [
+  async (req, res, next) => {
+    try {
+      const categories = await Item.distinct('category');
+      res.json(categories);
+    } catch (err) {
+      next(err);
+    }
+  },
+];

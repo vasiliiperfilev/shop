@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 const mongoose = require('mongoose');
 
@@ -20,5 +21,13 @@ const OrderSchema = new Schema(
   },
   { timestamps: true }
 );
+
+OrderSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+
+OrderSchema.set('toJSON', {
+  virtuals: true,
+});
 
 module.exports = mongoose.model('Order', OrderSchema);

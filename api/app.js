@@ -6,6 +6,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
 
 const usersRouter = require('./routes/users');
 const ordersRouter = require('./routes/orders');
@@ -14,6 +15,7 @@ const itemsRouter = require('./routes/items');
 require('./services/passport');
 
 const app = express();
+app.use(cors());
 
 const mongoDB = process.env.MONGO_CONNECTION_STRING;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });

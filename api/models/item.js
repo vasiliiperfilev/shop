@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 const mongoose = require('mongoose');
 
@@ -14,5 +15,13 @@ const ItemSchema = new Schema(
   },
   { timestamps: true }
 );
+
+ItemSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+
+ItemSchema.set('toJSON', {
+  virtuals: true,
+});
 
 module.exports = mongoose.model('Item', ItemSchema);

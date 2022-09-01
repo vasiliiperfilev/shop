@@ -1,20 +1,20 @@
 import axios from 'axios';
 import { ItemResponse } from './types/item.response';
-
-const baseUrl = 'https://fakestoreapi.com/products';
+import { API_URL } from '../../config';
 
 const getProducts = async (category: string | undefined) => {
-  const url = category ? `${baseUrl}/${category}` : baseUrl;
+  const url = category
+    ? `${API_URL}/items/categories/${category}`
+    : `${API_URL}/items/`;
   const response = await axios.get<ItemResponse[]>(url);
   return response.data.map((item) => ({
     ...item,
     link: '/shop/products/' + item.id,
-    id: item.id.toString(),
   }));
 };
 
 const getCategories = async () => {
-  const url = `${baseUrl}/categories`;
+  const url = `${API_URL}/items/categories`;
   const response = await axios.get<string[]>(url);
   return response.data;
 };

@@ -13,7 +13,7 @@ const userSlice = createSlice({
         return null;
       }
     },
-    addOrder(state, action: PayloadAction<Order>) {
+    addOrder(state, action: PayloadAction<string>) {
       if (state) {
         return { ...state, orders: [...state.orders, action.payload] };
       } else {

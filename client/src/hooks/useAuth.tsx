@@ -3,10 +3,15 @@ import { LoginRequest, RegisterRequest } from '../services/auth/types';
 import AuthService from '../services/auth/authService';
 import { AxiosError } from 'axios';
 import { FormErrors } from '../components/form/Form';
-import { mapKeys, camelCase, reduce } from 'lodash';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { setUser } from '../redux/reducers/userReducer';
 import storage from '../utils/storage';
+
+export interface ServerError {
+  value: string;
+  param: keyof RegisterRequest;
+  msg: string;
+}
 
 const useAuth = () => {
   const [isRequesting, setIsRequesting] = useState(false);
@@ -22,28 +27,36 @@ const useAuth = () => {
     loginRequest: LoginRequest | null
   ) => {
     try {
-      let user;
+      let authResponse;
       setIsRequesting(true);
       if (registerRequest) {
-        user = await AuthService.register(registerRequest);
+        authResponse = await AuthService.register(registerRequest);
       } else if (loginRequest) {
-        user = await AuthService.login(loginRequest);
+        authResponse = await AuthService.login(loginRequest);
       }
-      if (user) {
-        dispatch(setUser(user));
+      if (authResponse) {
+        dispatch(setUser(authResponse.user));
+        return authResponse.user;
       }
-      return user;
     } catch (err: any | AxiosError) {
       if (err instanceof AxiosError) {
-        setMessage(err.response?.data.title);
+        setMessage(err.response?.data.message);
         setErrors(
-          mapKeys(err.response?.data.errors, (v, k) =>
-            camelCase(k)
-          ) as FormErrors<RegisterRequest>
+          err.response?.data.errors?.reduce(
+            (
+              errs: FormErrors<RegisterRequest>,
+              { param, msg }: ServerError
+            ) => {
+              errs[param] = msg;
+              return errs;
+            },
+            {}
+          )
         );
       } else {
         console.error(err);
       }
+      setIsRequesting(false);
     }
   };
 
@@ -59,10 +72,10 @@ const useAuth = () => {
   };
 
   useEffect(() => {
-    if (user || errors) {
+    if (user) {
       setIsRequesting(false);
     }
-  }, [user, errors]);
+  }, [user]);
 
   return { registerUser, loginUser, logout, isRequesting, errors, message };
 };

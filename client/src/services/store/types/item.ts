@@ -1,6 +1,5 @@
 import { ItemResponse } from './item.response';
 
-export interface Item extends Omit<ItemResponse, 'id'> {
-  id: string;
+export interface Item extends ItemResponse {
   link: string;
 }

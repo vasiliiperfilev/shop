@@ -1,14 +1,16 @@
 import { axios } from '../axios';
 import { Order, PostOrderRequest } from './types';
 
-const getOrders = async () => {
-  const response = await axios.get<undefined, Order[]>('users/self/orders');
+const getOrders = async (userId: string) => {
+  const response = await axios.get<undefined, Order[]>(
+    `users/${userId}/orders`
+  );
   return response;
 };
 
 const postOrder = async (postOrderRequest: PostOrderRequest) => {
   const response = await axios.post<PostOrderRequest, Order>(
-    'users/self/orders',
+    `users/${postOrderRequest.userId}/orders`,
     postOrderRequest
   );
   return response;

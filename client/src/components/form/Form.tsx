@@ -9,7 +9,7 @@ import {
 } from 'react-hook-form';
 
 export type FormErrors<TFormValues> =
-  | Record<FieldPath<TFormValues>, string[]>
+  | Record<FieldPath<TFormValues>, string>
   | Record<string, never>;
 
 type FormProps<TFormValues> = {
@@ -46,7 +46,7 @@ export const Form = <
     for (const fieldName in errors) {
       if (hasOwnProperty(errors, fieldName)) {
         methods.setError(fieldName, {
-          message: errors[fieldName][0],
+          message: errors[fieldName],
         });
       }
     }

@@ -1,5 +1,5 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
-import fakeStoreService from '../../services/store/fakeStoreService';
+import store from '../../services/store/storeService';
 import { setError } from './errorReducer';
 import history from '../../utils/history';
 import { AxiosError } from 'axios';
@@ -20,7 +20,7 @@ export const { setProducts } = shopSlice.actions;
 export const initializeProducts = () => {
   return async (dispatch: Dispatch) => {
     try {
-      const products = await fakeStoreService.getProducts(undefined);
+      const products = await store.getProducts(undefined);
       dispatch(setProducts(products));
     } catch (e) {
       const err = e as AxiosError;

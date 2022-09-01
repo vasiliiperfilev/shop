@@ -33,14 +33,19 @@ export const OrderRecord = ({ id, date, items }: OrderRecordProps) => {
         } overflow-hidden transition-all duration-500 flex flex-col`}
       >
         <ul className="p-4">
-          {items.map((item) => (
-            <ItemRecord {...item} key={item.id} className="w-full" />
+          {items.map(({ item, quantity }) => (
+            <ItemRecord
+              item={item}
+              quantity={quantity}
+              key={item.id}
+              className="w-full"
+            />
           ))}
         </ul>
         <div className="ml-auto mt-8 border-t">
           Total:{' '}
           {items.reduce(
-            (sum, { price, quantity }) => (sum += price * quantity),
+            (sum, { item, quantity }) => (sum += item.price * quantity),
             0
           )}
         </div>

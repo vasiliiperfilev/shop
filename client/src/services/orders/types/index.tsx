@@ -1,13 +1,21 @@
 import { Item } from '../../store/types/item';
 
-export interface OrderItem extends Item {
+export type OrderItem = {
+  item: Item;
   quantity: number;
-}
+};
 
 export type Order = {
   id: string;
+  userId: string;
   date: string;
   items: OrderItem[];
 };
 
-export type PostOrderRequest = Omit<Order, 'id'>;
+export type PostOrderRequest = {
+  userId: string;
+  items: {
+    item: string;
+    quantity: number;
+  }[];
+};

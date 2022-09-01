@@ -29,8 +29,14 @@ const Bag = ({
     }
     return (
       <div className="overflow-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
-        {orderItems.map((item) => (
-          <ItemRecord {...item} editable key={item.id} imageSize="l" />
+        {orderItems.map(({ item, quantity }) => (
+          <ItemRecord
+            item={item}
+            quantity={quantity}
+            editable
+            key={item.id}
+            imageSize="l"
+          />
         ))}
       </div>
     );
@@ -51,13 +57,18 @@ const Bag = ({
 
   const tryPostOrder = async () => {
     try {
-      const order = await orderService.postOrder({
-        date: new Date().toISOString(),
-        items: orderItems,
-      });
-      dispatch(addOrder(order));
-      dispatch(cleanBag());
-      navigate('/shop/user/orders', { replace: true });
+      if (user) {
+        const order = await orderService.postOrder({
+          userId: user.id,
+          items: orderItems.map(({ item, quantity }) => ({
+            item: item.id,
+            quantity,
+          })),
+        });
+        dispatch(addOrder(order.id));
+        dispatch(cleanBag());
+        navigate('/shop/user/orders', { replace: true });
+      }
     } catch (err: unknown | AxiosError) {
       if (err instanceof AxiosError) {
         dispatch(setError('Processing error'));
@@ -107,7 +118,7 @@ const Bag = ({
         <p>
           Total: $
           {orderItems
-            .reduce((sum, { price, quantity }) => sum + price * quantity, 0)
+            .reduce((sum, { item, quantity }) => sum + item.price * quantity, 0)
             .toFixed(2)}
         </p>
       )}

@@ -1,10 +1,32 @@
-// add orderPage and logout to header if logged or log in button
-// order - add address nad state
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { OrderRecord } from '../features/orders';
 import { useAppSelector } from '../redux/hooks';
+import { setError } from '../redux/reducers/errorReducer';
+import orderService from '../services/orders/orderService';
+import { Order } from '../services/orders/types';
 
 export const OrdersPage = () => {
-  const orders = useAppSelector((state) => state.user?.orders);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.user);
+  const [orders, setOrders] = useState<Order[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      orderService
+        .getOrders(user.id)
+        .then((orders) => {
+          setOrders(orders);
+        })
+        .catch((err) => {
+          dispatch(setError('Order loading error'));
+          navigate('/shop/error');
+        });
+    }
+  }, []);
+
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="grid grid-cols-[repeat(4,_minmax(0,_1fr))] justify-items-center gap-4 w-full font-semibold border-b-4 border-b-btn-primary">
