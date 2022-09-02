@@ -7,3 +7,7 @@ export interface ItemResponse {
   image: string;
   rating: { rate: number; count: number };
 }
+
+export interface Item extends ItemResponse {
+  link: string;
+}

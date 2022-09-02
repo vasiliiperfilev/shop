@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ItemResponse } from './types/item.response';
+import { ItemResponse } from './types';
 import { API_URL } from '../../config';
 
 const getProducts = async (category: string | undefined) => {

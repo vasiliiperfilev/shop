@@ -8,7 +8,6 @@ const { ObjectId } = mongoose.Types;
 const OrderSchema = new Schema(
   {
     userId: { type: ObjectId, ref: 'User' },
-    date: { type: Date },
     items: {
       type: [
         {

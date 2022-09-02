@@ -3,7 +3,7 @@ import store from '../../services/store/storeService';
 import { setError } from './errorReducer';
 import history from '../../utils/history';
 import { AxiosError } from 'axios';
-import { Item } from '../../services/store/types/item';
+import { Item } from '../../services/store/types';
 
 const shopSlice = createSlice({
   name: 'shop',

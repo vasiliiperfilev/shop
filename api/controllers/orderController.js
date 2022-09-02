@@ -26,7 +26,7 @@ exports.postOrder = [
     } else {
       const { user } = req;
       const { items } = req.body;
-      const order = new Order({ items, userId: user.id, date: new Date() });
+      const order = new Order({ items, userId: user.id });
       order.save(async (err, result) => {
         if (err) return next(err);
         user.orders.push(result.id);

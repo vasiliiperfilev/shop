@@ -1,4 +1,4 @@
-import { Item } from '../../store/types/item';
+import { Item } from '../../store/types';
 
 export type OrderItem = {
   item: Item;
@@ -8,12 +8,11 @@ export type OrderItem = {
 export type Order = {
   id: string;
   userId: string;
-  date: string;
+  createdAt: string;
   items: OrderItem[];
 };
 
 export type PostOrderRequest = {
-  userId: string;
   items: {
     item: string;
     quantity: number;

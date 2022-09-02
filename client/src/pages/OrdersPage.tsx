@@ -16,11 +16,11 @@ export const OrdersPage = () => {
   useEffect(() => {
     if (user) {
       orderService
-        .getOrders(user.id)
+        .getOrders()
         .then((orders) => {
           setOrders(orders);
         })
-        .catch((err) => {
+        .catch(() => {
           dispatch(setError('Order loading error'));
           navigate('/shop/error');
         });
@@ -42,3 +42,5 @@ export const OrdersPage = () => {
     </div>
   );
 };
+
+export default OrdersPage;

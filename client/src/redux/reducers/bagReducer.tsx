@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OrderItem } from '../../services/orders/types';
-import { Item } from '../../services/store/types/item';
+import { Item } from '../../services/store/types';
 
 const bagSlice = createSlice({
   name: 'bag',

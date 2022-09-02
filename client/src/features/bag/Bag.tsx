@@ -59,7 +59,6 @@ const Bag = ({
     try {
       if (user) {
         const order = await orderService.postOrder({
-          userId: user.id,
           items: orderItems.map(({ item, quantity }) => ({
             item: item.id,
             quantity,

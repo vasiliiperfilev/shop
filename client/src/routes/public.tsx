@@ -1,12 +1,14 @@
+import React from 'react';
 import { Navigate } from 'react-router-dom';
-import LandingBanner from '../components/LandingBanner';
-import { Layout } from '../components/Layout';
 import ShopCardsGalery from '../components/ShopCardsGalery';
 import { LoginForm } from '../features/auth/LoginForm';
 import { RegisterForm } from '../features/auth/RegisterForm';
 import ErrorPage from '../pages/ErrorPage';
 import ItemPage from '../pages/ItemPage';
-import ShopPage from '../pages/ShopPage';
+
+const ShopPage = React.lazy(() => import('../pages/ShopPage'));
+const Layout = React.lazy(() => import('../components/Layout'));
+const LandingBanner = React.lazy(() => import('../components/LandingBanner'));
 
 export const publicRoutes = [
   {

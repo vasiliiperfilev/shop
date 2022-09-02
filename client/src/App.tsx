@@ -22,16 +22,16 @@ export default function App() {
   }, []);
 
   return (
-    <React.Suspense
-      fallback={
-        <div className="flex items-center justify-center w-screen h-screen">
-          <Spinner size="xl" />
-        </div>
-      }
-    >
-      <HistoryRouter history={history}>
+    <HistoryRouter history={history}>
+      <React.Suspense
+        fallback={
+          <div className="flex items-center justify-center w-screen h-screen">
+            <Spinner size="xl" />
+          </div>
+        }
+      >
         <AppRoutes />
-      </HistoryRouter>
-    </React.Suspense>
+      </React.Suspense>
+    </HistoryRouter>
   );
 }
