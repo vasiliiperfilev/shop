@@ -6,7 +6,7 @@ const bagSlice = createSlice({
   name: 'bag',
   initialState: [] as OrderItem[],
   reducers: {
-    addItem(state, action: PayloadAction<Item>) {
+    addItemToBag(state, action: PayloadAction<Item>) {
       const bagIndex = state.findIndex(
         ({ item }) => item.id === action.payload.id
       );
@@ -38,6 +38,6 @@ const bagSlice = createSlice({
   },
 });
 
-export const { addItem, setQuantity, cleanBag } = bagSlice.actions;
+export const { addItemToBag, setQuantity, cleanBag } = bagSlice.actions;
 
 export default bagSlice.reducer;

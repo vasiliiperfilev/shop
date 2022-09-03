@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { Button } from '../components/elements/Button';
-import { addItem } from '../redux/reducers/bagReducer';
+import { addItemToBag } from '../redux/reducers/bagReducer';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 const ItemPage = () => {
@@ -11,7 +11,8 @@ const ItemPage = () => {
 
   const onAddClick = () => {
     if (itemId && item) {
-      dispatch(addItem(item));
+      // TODO: addItemToBag
+      dispatch(addItemToBag(item));
     }
   };
 

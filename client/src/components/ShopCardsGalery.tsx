@@ -5,6 +5,7 @@ import ShopCard from './ShopCard';
 const ShopCardsGalery = () => {
   const { categoryName } = useParams();
 
+  // TODO: create hook to fetch products instead of reducer
   const products = useAppSelector(({ shop }) =>
     categoryName
       ? shop.filter((product) => product.category === categoryName)

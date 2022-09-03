@@ -23,38 +23,7 @@ const Bag = ({
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  const renderShopList = () => {
-    if (orderItems.length === 0) {
-      return <p>Your bag is empty</p>;
-    }
-    return (
-      <div className="overflow-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
-        {orderItems.map(({ item, quantity }) => (
-          <ItemRecord
-            item={item}
-            quantity={quantity}
-            editable
-            key={item.id}
-            imageSize="l"
-          />
-        ))}
-      </div>
-    );
-  };
-
-  const renderButton = () => {
-    const text = orderItems.length === 0 ? 'BROWSE PRODUCTS' : 'CHECKOUT';
-    return (
-      <Button
-        className="text-secondary-dark mt-auto mx-auto border-secondary-dark"
-        onClick={() => onButtonClick()}
-        variant="animated"
-      >
-        {text}
-      </Button>
-    );
-  };
-
+  // TODO: Move to separate hook
   const tryPostOrder = async () => {
     try {
       if (user) {
@@ -112,7 +81,21 @@ const Bag = ({
         <h3>SHOPPING</h3>
         <h3>BAG</h3>
       </div>
-      {renderShopList()}
+      {orderItems.length === 0 ? (
+        <p>Your bag is empty</p>
+      ) : (
+        <div className="overflow-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
+          {orderItems.map(({ item, quantity }) => (
+            <ItemRecord
+              item={item}
+              quantity={quantity}
+              editable
+              key={item.id}
+              imageSize="l"
+            />
+          ))}
+        </div>
+      )}
       {orderItems.length > 0 && (
         <p>
           Total: $
@@ -121,7 +104,13 @@ const Bag = ({
             .toFixed(2)}
         </p>
       )}
-      {renderButton()}
+      <Button
+        className="text-secondary-dark mt-auto mx-auto border-secondary-dark"
+        onClick={() => onButtonClick()}
+        variant="animated"
+      >
+        {orderItems.length === 0 ? 'BROWSE PRODUCTS' : 'CHECKOUT'}
+      </Button>
     </div>
   );
 };

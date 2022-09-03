@@ -13,6 +13,7 @@ import { AppRoutes } from './routes';
 export default function App() {
   const dispatch = useAppDispatch();
 
+  // TODO: remove these useEffects and reducers after hooks are added
   useEffect(() => {
     dispatch(initializeProducts());
   }, []);

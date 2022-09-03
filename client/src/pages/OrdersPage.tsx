@@ -13,6 +13,7 @@ export const OrdersPage = () => {
   const user = useAppSelector((state) => state.user);
   const [orders, setOrders] = useState<Order[]>([]);
 
+  // TODO: move to separate hook
   useEffect(() => {
     if (user) {
       orderService

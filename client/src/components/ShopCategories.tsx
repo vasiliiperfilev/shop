@@ -5,6 +5,7 @@ interface ShopCategoriesProps {
   categories: string[];
 }
 
+// TODO: create hook to fetch categories instead of reducer
 const ShopCategories = ({
   categories,
 }: ShopCategoriesProps & React.HTMLAttributes<HTMLDivElement>) => {
